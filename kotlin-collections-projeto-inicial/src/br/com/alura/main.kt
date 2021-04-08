@@ -2,39 +2,41 @@ package br.com.alura
 
 fun main() {
 
-        val bancoDeNomes = BancoDeNomes()
-        val nomesSalvos = bancoDeNomes.nomes
-//        bancoDeNomes.nomes.add("Raphael")
-                bancoDeNomes.salva("Raphael")
-        println(nomesSalvos)
-        println(BancoDeNomes().nomes)
+    val pedidos = listOf(
+        Pedido(1, 20.0),
+        Pedido(2, 60.0),
+        Pedido(3, 30.0),
+        Pedido(4, 70.0),
+    )
+    println(pedidos)
+    val pedidosMapeados = pedidos.associateBy { pedido: Pedido ->
+        pedido.numero
+    }
+    println(pedidosMapeados)
+    println(pedidosMapeados[1])
 
+    val pedidosFreteGratis: Map< Pedido, Boolean> = pedidos.associateWith { pedido ->
+        pedido.valor > 50.0
+    }
+    println(pedidosFreteGratis)
+
+
+//    val mapa: Map<Boolean, Pedido> = pedidos.associateBy { pedido ->
+//        pedido.valor > 50.0
+//    }
+//    println(mapa)
+
+
+    val pedidosFreteGratisAgrupados: Map<Boolean, List<Pedido>> = pedidos.groupBy { pedido: Pedido ->
+        pedido.valor > 50.0
+    }
+    println(pedidosFreteGratisAgrupados)
 
 }
-class BancoDeNomes(){
-        val nomes: Collection<String> get() = Companion.dados.toList() // imutavel
 
-        fun salva(nomes: String){
-                Companion.dados.add(nomes)
-        } // método para salvar nomes
+data class Pedido(val numero: Int, val valor: Double)
 
-        companion object {
-                private val dados = mutableListOf<String>() // mutavel
-        }       // Companion object na coleção mutável para manter os dados
 
-}
 
-fun testaLista() {
-        val nomes: Collection<String> = listOf(
-                "Alex",
-                "Fran",
-                "Gui",
-                "Maria",
-                "Ana"
-        )
-        for (nome in nomes.iterator()) {
-                println(nome)
-        }
-        println(nomes)
-}
+
 
